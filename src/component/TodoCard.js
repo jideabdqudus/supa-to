@@ -4,7 +4,7 @@ const TodoCard = ({ todo, onDelete }) => {
     <div className="todo-card">
       <h3>{todo.task}</h3>
       <p>{todo.desc}</p>
-      <div className="rating">{todo.done}</div>
+      <div className="rating">{String(todo.done)}</div>
       <div className="buttons">
         <Link to={"/" + todo.id}>
           <i className="material-icons">edit</i>

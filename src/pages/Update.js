@@ -46,7 +46,6 @@ const Update = () => {
         navigate("/", { replace: true });
       }
       if (data) {
-        console.log(data, "data");
         setTask(data.task);
         setDesc(data.desc);
         setDone(data.done);
