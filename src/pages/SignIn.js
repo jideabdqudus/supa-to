@@ -16,7 +16,7 @@ const SignIn = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      setFormError("Please fill in all the fields correctly.");
+      setFormError("Please fill in all the fields correctly");
       return;
     }
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -40,7 +40,7 @@ const SignIn = ({ user }) => {
       provider: "github",
     });
   }
-  
+
   async function signOut() {
     /* sign the user out */
     const { error } = await supabase.auth?.signOut();
