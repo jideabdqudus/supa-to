@@ -3,23 +3,13 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import supabase from "../config/supabaseClient";
 
-const SignIn = () => {
+const SignIn = ({ user }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
   const [formError, setFormError] = useState(null);
-
-  useEffect(() => {
-    /* when the app loads, check to see if the user is signed in */
-    checkUser();
-    /* check user on OAuth redirect */
-    window.addEventListener("hashchange", function () {
-      checkUser();
-    });
-  }, []);
 
   const { email, password } = data;
 
@@ -35,7 +25,7 @@ const SignIn = () => {
     });
 
     if (data) {
-      console.log(data);
+      navigate("/");
       return;
     } else {
       console.log(error);
@@ -44,56 +34,58 @@ const SignIn = () => {
     }
   };
 
-  async function checkUser() {
-    /* if a user is signed in, update local state */
-    const user = supabase.auth.user();
-    setUser(user);
-  }
   async function signInWithGithub() {
     /* authenticate with GitHub */
-    await supabase.auth.signIn({
+    await supabase.auth?.signIn({
       provider: "github",
     });
   }
+  
   async function signOut() {
     /* sign the user out */
-    await supabase.auth.signOut();
-    setUser(null);
+    const { error } = await supabase.auth?.signOut();
+    if (error) {
+      console.log("Error Logging Out");
+    } else {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      console.log("else");
+    }
   }
 
-  if (user) {
-    return (
-      <div className="App">
-        <h1>Hello, {user.email}</h1>
-        <button onClick={signOut}>Sign out</button>
-      </div>
-    );
-  }
+  console.log(user, 'user')
 
   return (
     <div className="sign-in">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setData({ ...data, email: e.target.value })}
-        />
+      {user ? (
+        <form>
+          <h1>Hello, {user?.email}</h1>
+          <button onClick={signOut}>Log out</button>
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
+          />
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setData({ ...data, password: e.target.value })}
-        />
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+          />
 
+          <button>Login</button>
 
-        <button>Login Account</button>
-
-        {formError && <p className="error">{formError}</p>}
-      </form>
+          {formError && <p className="error">{formError}</p>}
+        </form>
+      )}
     </div>
   );
 };

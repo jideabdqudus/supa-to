@@ -30,7 +30,8 @@ nav h1 {
   color: #fff;
 }
 .home,
-.create {
+.create,
+.sign-in {
   margin: 20px auto;
   padding: 20px;
 }
