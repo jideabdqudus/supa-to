@@ -54,7 +54,7 @@ const SignIn = ({ user }) => {
     }
   }
 
-  console.log(user, 'user')
+  console.log(user, "user");
 
   return (
     <div className="sign-in">
@@ -81,7 +81,11 @@ const SignIn = ({ user }) => {
             onChange={(e) => setData({ ...data, password: e.target.value })}
           />
 
-          <button>Login</button>
+          <button type="submit">Login</button>
+
+          <button style={{ marginLeft: "30px" }} onClick={signInWithGithub} type="button">
+            Login with Github
+          </button>
 
           {formError && <p className="error">{formError}</p>}
         </form>
