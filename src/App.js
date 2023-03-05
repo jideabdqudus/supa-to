@@ -18,6 +18,9 @@ function App() {
   }
   useEffect(() => {
     checkUser();
+    window.addEventListener("hashchange", function () {
+      checkUser();
+    });
   }, []);
 
   return (
