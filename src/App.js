@@ -7,7 +7,6 @@ import SignIn from "./pages/SignIn.js";
 import supabase from "./config/supabaseClient";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
 function App() {
   const [user, setUser] = useState(null);
   async function checkUser() {
